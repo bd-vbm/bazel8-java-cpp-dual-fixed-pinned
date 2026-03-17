@@ -1,0 +1,37 @@
+workspace(name = "bazel8_java_cpp_dual")
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# rules_jvm_external for Maven dependencies (WORKSPACE mode)
+RULES_JVM_EXTERNAL_TAG = "6.10"
+RULES_JVM_EXTERNAL_SHA = "e5f83b8f2678d2b26441e5eafefb1b061826608417b8d24e5e8e15e585eab1ba"
+
+http_archive(
+    name = "rules_jvm_external",
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
+    sha256 = RULES_JVM_EXTERNAL_SHA,
+    urls = [
+        "https://github.com/bazel-contrib/rules_jvm_external/releases/download/%s/rules_jvm_external-%s.tar.gz" % (RULES_JVM_EXTERNAL_TAG, RULES_JVM_EXTERNAL_TAG),
+    ],
+)
+
+load("@rules_jvm_external//:repositories.bzl", "rules_jvm_external_deps")
+rules_jvm_external_deps()
+
+load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
+rules_jvm_external_setup()
+
+load("@rules_jvm_external//:defs.bzl", "maven_install")
+
+# Java deps for Selenium + TestNG (WORKSPACE mode)
+maven_install(
+    name = "maven",
+    artifacts = [
+        "org.seleniumhq.selenium:selenium-java:4.18.1",
+        "org.testng:testng:7.9.0",
+    ],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+    maven_install_json = "//:maven_install.json",
+)
