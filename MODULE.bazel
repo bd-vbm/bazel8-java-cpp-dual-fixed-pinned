@@ -1,5 +1,29 @@
 module(name = "bazel8_java_cpp_dual", version = "0.1.0")
 
+
+bazel_dep(name = "rules_python", version = "1.9.0")
+
+
+single_version_override(
+    module_name = "rules_python",
+    version = "1.9.0",
+)
+
+
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+
+#python.defaults(
+#    python_version = "3.11",
+#    ignore_root_user_error = True,  # <-- allow root in containers
+#)
+python.toolchain(
+    python_version = "3.11",
+    is_default = True,
+    ignore_root_user_error = True,  # <-- allow root in containers
+)
+use_repo(python, "python_3_11")
+
+
 # Bzlmod deps
 bazel_dep(name = "rules_jvm_external", version = "6.10")
 
