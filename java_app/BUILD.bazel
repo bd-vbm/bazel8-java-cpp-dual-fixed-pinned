@@ -1,0 +1,17 @@
+java_library(
+    name = "app_lib",
+    srcs = glob(["src/main/java/**/*.java"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        "@maven//:org_seleniumhq_selenium_selenium_java",
+        "@maven//:org_seleniumhq_selenium_selenium_api",
+        "@maven//:org_testng_testng",
+    ],
+)
+
+java_binary(
+    name = "app",
+    main_class = "com.example.App",
+    visibility = ["//visibility:public"],
+    runtime_deps = [":app_lib"],
+)
