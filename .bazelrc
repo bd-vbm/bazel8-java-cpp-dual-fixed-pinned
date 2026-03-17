@@ -1,0 +1,15 @@
+# Default to Bzlmod (Bazel 8 default)
+build --enable_bzlmod
+
+# Prefer Java 17 toolchains (language + runtime)
+build --java_language_version=17
+build --tool_java_language_version=17
+build --java_runtime_version=17
+build --tool_java_runtime_version=17
+
+# Convenience configs
+build:bzlmod --enable_bzlmod
+build:workspace --noenable_bzlmod --enable_workspace
+
+# Useful defaults
+test --test_output=errors
